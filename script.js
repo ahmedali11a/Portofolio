@@ -639,6 +639,308 @@ document.querySelectorAll('.nav-link').forEach(link => {
     });
 });
 
+// Certificate links functionality
+function initializeCertificateLinks() {
+    const certificateLinks = document.querySelectorAll('.certificate-link');
+
+    // Certificate URLs mapping - you can update these with your actual certificate URLs
+    const certificateUrls = {
+        'pandas-datacamp': 'https://www.datacamp.com/certificate/your-certificate-id-1',
+        'eda-datacamp': 'https://www.datacamp.com/certificate/your-certificate-id-2',
+        'python-intro-datacamp': 'https://www.datacamp.com/certificate/your-certificate-id-3',
+        'python-intermediate-datacamp': 'https://www.datacamp.com/certificate/your-certificate-id-4',
+        'ml-intro-kaggle': 'https://www.kaggle.com/learn/certification/your-username/intro-to-machine-learning',
+        'pandas-kaggle': 'https://www.kaggle.com/learn/certification/your-username/pandas',
+        'ml-supervised-coursera': 'https://www.coursera.org/account/accomplishments/certificate/your-certificate-id'
+    };
+
+    certificateLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const certificateId = this.getAttribute('data-certificate');
+            const certificateUrl = certificateUrls[certificateId];
+
+            if (certificateUrl && certificateUrl !== 'https://www.datacamp.com/certificate/your-certificate-id-1') {
+                // Open certificate in new tab
+                window.open(certificateUrl, '_blank');
+                showNotification('Opening certificate...', 'info');
+            } else {
+                // Show modal for adding certificate URL
+                showCertificateModal(certificateId);
+            }
+        });
+    });
+}
+
+// Certificate URL modal functionality
+function showCertificateModal(certificateId) {
+    // Remove existing modal if any
+    const existingModal = document.querySelector('.certificate-modal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    // Create modal
+    const modal = document.createElement('div');
+    modal.className = 'certificate-modal';
+    modal.innerHTML = `
+        <div class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Add Certificate Link</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Please enter the URL for your certificate:</p>
+                    <div class="form-group">
+                        <input type="url" id="certificateUrl" placeholder="https://example.com/certificate" class="modal-input">
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="btn btn-primary" id="saveCertificate">Save Certificate</button>
+                        <button class="btn btn-secondary" id="cancelModal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Add modal styles
+    const modalStyles = `
+        .certificate-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 0;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            z-index: 10001;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            color: #2c3e50;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        .modal-body p {
+            margin-bottom: 1rem;
+            color: #666;
+        }
+        
+        .modal-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+        
+        .modal-input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            justify-content: flex-end;
+        }
+        
+        .modal-buttons .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-buttons .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+        
+        .modal-buttons .btn-primary:hover {
+            background: #2980b9;
+        }
+        
+        .modal-buttons .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .modal-buttons .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+        
+        /* Dark mode styles for modal */
+        body.dark-mode .modal-content {
+            background: #2d2d2d;
+        }
+        
+        body.dark-mode .modal-header {
+            border-bottom-color: #444;
+        }
+        
+        body.dark-mode .modal-header h3 {
+            color: #e1e1e1;
+        }
+        
+        body.dark-mode .modal-close {
+            color: #b0b0b0;
+        }
+        
+        body.dark-mode .modal-close:hover {
+            background: #444;
+            color: #e1e1e1;
+        }
+        
+        body.dark-mode .modal-body p {
+            color: #b0b0b0;
+        }
+        
+        body.dark-mode .modal-input {
+            background: #1a1a1a;
+            border-color: #444;
+            color: #e1e1e1;
+        }
+        
+        body.dark-mode .modal-input:focus {
+            border-color: #3498db;
+        }
+    `;
+
+    // Add styles if not already added
+    if (!document.querySelector('#modal-styles')) {
+        const style = document.createElement('style');
+        style.id = 'modal-styles';
+        style.textContent = modalStyles;
+        document.head.appendChild(style);
+    }
+
+    // Add modal to page
+    document.body.appendChild(modal);
+
+    // Modal functionality
+    const closeBtn = modal.querySelector('.modal-close');
+    const cancelBtn = modal.querySelector('#cancelModal');
+    const saveBtn = modal.querySelector('#saveCertificate');
+    const urlInput = modal.querySelector('#certificateUrl');
+
+    const closeModal = () => {
+        modal.style.animation = 'fadeOut 0.3s ease-out';
+        setTimeout(() => modal.remove(), 300);
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+
+    // Close modal when clicking overlay
+    modal.querySelector('.modal-overlay').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) {
+            closeModal();
+        }
+    });
+
+    // Save certificate URL
+    saveBtn.addEventListener('click', () => {
+        const url = urlInput.value.trim();
+
+        if (!url) {
+            showNotification('Please enter a certificate URL', 'error');
+            return;
+        }
+
+        if (!isValidUrl(url)) {
+            showNotification('Please enter a valid URL', 'error');
+            return;
+        }
+
+        // Update the certificate link
+        const certificateLink = document.querySelector(`[data-certificate="${certificateId}"]`);
+        if (certificateLink) {
+            certificateLink.href = url;
+            showNotification('Certificate link saved successfully!', 'success');
+        }
+
+        closeModal();
+    });
+
+    // Focus on input
+    setTimeout(() => urlInput.focus(), 100);
+}
+
+// URL validation function
+function isValidUrl(string) {
+    try {
+        new URL(string);
+        return true;
+    } catch (_) {
+        return false;
+    }
+}
+
 // Initialize all functionality when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Portfolio website loaded successfully!');
@@ -650,6 +952,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         document.body.style.opacity = '1';
     }, 100);
+
+    // Initialize certificate links
+    initializeCertificateLinks();
 
     // Test dark mode functionality
     console.log('Dark mode toggle element:', darkModeToggle);

@@ -143,6 +143,16 @@ body.dark-mode .certificate-card p {
     color: #b0b0b0;
 }
 
+body.dark-mode .certificate-link {
+    background: #e74c3c;
+    color: white;
+}
+
+body.dark-mode .certificate-link:hover {
+    background: #c0392b;
+    border-color: #c0392b;
+}
+
 body.dark-mode .contact {
     background: #2d2d2d;
 }
@@ -892,6 +902,37 @@ section {
     border-radius: 20px;
     font-size: 0.9rem;
     font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.certificate-links {
+    margin-top: 1rem;
+}
+
+.certificate-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 8px 16px;
+    background: #e74c3c;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.certificate-link:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+    border-color: #c0392b;
+}
+
+.certificate-link i {
+    font-size: 0.8rem;
 }
 
 /* Contact Section */
@@ -1118,6 +1159,18 @@ section {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.9);
     }
 }
 
