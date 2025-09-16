@@ -643,15 +643,16 @@ document.querySelectorAll('.nav-link').forEach(link => {
 function initializeCertificateLinks() {
     const certificateLinks = document.querySelectorAll('.certificate-link');
 
-    // Certificate URLs mapping - you can update these with your actual certificate URLs
+    // Certificate URLs mapping - updated with actual certificate URLs
     const certificateUrls = {
-        'pandas-datacamp': 'https://www.datacamp.com/certificate/your-certificate-id-1',
-        'eda-datacamp': 'https://www.datacamp.com/certificate/your-certificate-id-2',
-        'python-intro-datacamp': 'https://www.datacamp.com/certificate/your-certificate-id-3',
-        'python-intermediate-datacamp': 'https://www.datacamp.com/certificate/your-certificate-id-4',
-        'ml-intro-kaggle': 'https://www.kaggle.com/learn/certification/your-username/intro-to-machine-learning',
-        'pandas-kaggle': 'https://www.kaggle.com/learn/certification/your-username/pandas',
-        'ml-supervised-coursera': 'https://www.coursera.org/account/accomplishments/certificate/your-certificate-id'
+        'pandas-datacamp': 'https://www.datacamp.com/completed/statement-of-accomplishment/course/baa01d1cfe256802237f2a060a7d2af6fdb508be',
+        'eda-datacamp': 'https://www.datacamp.com/completed/statement-of-accomplishment/course/675f12a031df6f2b3a8af9893767d7128aa9b89f',
+        'python-intro-datacamp': 'https://www.datacamp.com/completed/statement-of-accomplishment/course/fcee9ed74c5370a1ee5dbf24f9859957e194495c',
+        'python-intermediate-datacamp': 'https://www.datacamp.com/completed/statement-of-accomplishment/course/your-intermediate-python-url',
+        'ml-intro-kaggle': 'https://www.kaggle.com/learn/certification/ahmedaliaaa/intro-to-machine-learning',
+        'pandas-kaggle': 'https://www.kaggle.com/learn/certification/ahmedaliaaa/pandas',
+        'intermediate-ml-kaggle': 'https://www.kaggle.com/learn/certification/ahmedaliaaa/intermediate-machine-learning',
+        'ml-supervised-coursera': 'https://coursera.org/verify/C20RUEK2PCUN'
     };
 
     certificateLinks.forEach(link => {
@@ -661,7 +662,7 @@ function initializeCertificateLinks() {
             const certificateId = this.getAttribute('data-certificate');
             const certificateUrl = certificateUrls[certificateId];
 
-            if (certificateUrl && certificateUrl !== 'https://www.datacamp.com/certificate/your-certificate-id-1') {
+            if (certificateUrl && !certificateUrl.includes('your-') && !certificateUrl.includes('your-certificate-id')) {
                 // Open certificate in new tab
                 window.open(certificateUrl, '_blank');
                 showNotification('Opening certificate...', 'info');
